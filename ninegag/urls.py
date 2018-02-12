@@ -17,16 +17,19 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('api.urls')),
     url(r'^', include('post.urls')),
     url(r'^', include('comment.urls')),
+    url(r'^login/$', auth_views.login,{'template_name': 'registration/login.html'}),
+    url(r'^logout/$', auth_views.logout,{'template_name': 'registration/logged_out.html'} ),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
 
-urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls')),
+[
+    url(r'^api-auth/', include('rest_framework.urls'))
 ]

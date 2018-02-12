@@ -1,29 +1,20 @@
 {% load staticfiles %}
 <html>
     <head>
-        <title>Notepad</title>
+        <title>9GAG</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link href="/open-iconic/font/css/open-iconic.css" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/notes.css' %}">
     </head>
     <body>
-        <!--
-        <div class="page-header">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1><a href="/">Notepad</a></h1>
-                </div>
-            </div>
-        </div>
-        -->
         <div class="content container">
             <div class="row">
                 {% if user.is_authenticated %}
                     <div class="col-md-12 well">
                         </br>
                         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                            <a class="navbar-brand" href="/">Notepad</a>
+                            <a class="navbar-brand" href="/">9GAG</a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
@@ -33,7 +24,7 @@
                                         <a class="nav-link" href="/" >Home</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/root" >API</a>
+                                        <a class="nav-link" href="/api" >API</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/logout" >Logout</a>
@@ -57,7 +48,7 @@
                                         <a class="nav-link" href="/login" >Login</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="/root" >API</a>
+                                        <a class="nav-link" href="/api" >API</a>
                                     </li>
                                 </ul>
                             </div>

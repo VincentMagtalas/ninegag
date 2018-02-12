@@ -1,0 +1,93 @@
+{% extends 'posts/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <h2>{{post.title}}</h2>
+            <p>Published by: {{post.owner}}</p>
+            <p>{{post.content}}</p>
+        </div>
+        <div class="col-md-4">
+            {% if user.is_authenticated %}
+                {% if request.user == post.owner %}
+                    <button class="btn btn-default">
+                        <a href="{% url 'note_edit' pk=note.pk %}">EDIT</a>
+                    </button>
+
+                    <button class="btn btn-default">
+                        <a href="{% url 'note_delete' pk=note.pk %}">DELETE</a>
+                    </button>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <!--comment box if user is authenticated-->
+    <h3>Comments:</h3>
+    <div class="row">
+        <div class="col-md-8">
+            {% if user.is_authenticated %}
+                <form action="{% url 'post_comment' pk=post.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-8">
+                            <input type="hidden" name="postid" value="{{ post.id }}">
+                            <input type="text" name="comment" class="form-control" placeholder="Comment">
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="save btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            {% else %}
+                 You need to login to comment. <a href="/login">Click here to login</a>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-8">
+            {% for comment in post.comments %}
+                <b>{{comment.owner}}</b><br>
+                {{comment.comment}}</br>
+                <form method="POST" action="{% url 'vote_comment' pk=post.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="commentid" value="{{ comment.id }}">
+                    {{comment.upvote}} <button class="btn btn-default btn-sm" name="btnUpVote">Upvote</button>
+                    {{comment.downvote}} <button class="btn btn-default btn-sm" name="btnDownVote">DownVote</button>
+                </form>
+
+                <div class="col-md-3"> </div>
+                <div class="col-md-5">
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'comment_subcomment' pk=post.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-8">
+                                    <input type="hidden" name="commentid" value="{{ comment.id }}">
+                                    <input type="text" name="subcomment" class="form-control" placeholder="Reply to comment">
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class="save btn btn-primary">Reply</button>
+                                </div>
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+                <div class="col-md-3"> </div>
+                <div class="col-md-5">
+                    {% for subcomment in comment.subcomments %}
+                        <b>{{subcomment.owner}}</b><br>
+                        {{subcomment.subcomment}}</br>
+                        <form method="POST" action="{% url 'vote_subcomment' pk=post.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="subcommentid" value="{{ subcomment.id }}">
+                            {{subcomment.upvote}} <button class="btn btn-default btn-sm" name="btnUpVote">Upvote</button>
+                            {{subcomment.downvote}} <button class="btn btn-default btn-sm" name="btnDownVote">DownVote</button>
+                        </form>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

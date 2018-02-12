@@ -26,3 +26,12 @@ class SubComment(models.Model):
 
     class Meta:
         ordering = ('commentid','subcomment','upvote','downvote','created','owner')
+
+class Vote(models.Model):
+    owner = models.ForeignKey('auth.User', related_name='votes', on_delete=models.CASCADE)
+    commentid = models.ForeignKey(Comment, related_name='votes', on_delete=models.CASCADE, blank=True, null=True)
+    subcommentid = models.ForeignKey(SubComment, related_name='votes', on_delete=models.CASCADE, blank=True, null=True)
+    reaction = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('owner','commentid','subcommentid',)
